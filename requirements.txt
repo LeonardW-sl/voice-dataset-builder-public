@@ -1,0 +1,18 @@
+# 基础
+numpy
+soundfile
+pyyaml
+scikit-learn
+
+# VAD / AED
+fireredvad
+modelscope
+funasr
+
+# 识别（本机基线；服务器请用 FireRedASR2S 自己的环境）
+faster-whisper
+torch
+torchaudio
+
+# 人声分离（只用于打分）
+demucs

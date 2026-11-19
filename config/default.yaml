@@ -1,0 +1,35 @@
+# 所有阈值集中在这里，改完直接重跑，不用改代码。
+# 初值来自 10 分钟样段的观察，尚未在大样本上标定。
+
+aed:
+  model_dir: pretrained_models/FireRedVAD/AED
+  speech_threshold: 0.5      # 0.4 更宽松；0.9 更严
+  min_event_frame: 5         # 每帧 10 ms，即最短事件 50 ms
+  min_silence_frame: 15      # 150 ms 静音才断开
+  merge_silence_frame: 20    # 间隔 <200 ms 的两段合并
+  extend_speech_frame: 5     # 两端各留 50 ms
+  chunk_max_frame: 1000000
+
+seg:
+  min_dur: 1.0               # 太短切出来的多是语气词
+  max_dur: 15.0              # 太长不适合直接训练
+
+embed:
+  model: iic/speech_campplus_sv_zh-cn_16k-common
+  device: cpu
+  min_sim: 0.0               # 0 = 不过滤；标定后填实际阈值
+
+asr:
+  min_confidence: 0.35       # 识别置信度下限（0-1，两个引擎都已归一化）
+  min_cover: 0.7             # 文字覆盖音频时长的比例
+  min_chars: 4               # 去标点后最少字数
+  max_cps: 7.0               # 每秒字数上限，超了多是识别乱码
+
+quality:
+  min_v2a_db: 20.0           # 人声比伴奏高多少分贝才留；干净段实测 37-45，脏段 26-28
+  max_clip_ratio: 0.01       # 削波样本占比上限
+
+export:
+  sample_rate: 32000
+  speaker: speaker
+  lang: ZH
